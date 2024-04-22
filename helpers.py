@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt 
-from simulation import Simulation
 
 
 def show_lidar_data(data: np.ndarray):
@@ -11,7 +10,7 @@ def show_lidar_data(data: np.ndarray):
     plt.scatter([0], [0])
 
     plt.title("Lidar data visualization")
-    plt.grid(1)
+    plt.grid()
     plt.axis('scaled')
     plt.show()
 

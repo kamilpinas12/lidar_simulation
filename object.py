@@ -2,7 +2,7 @@ import numpy as np
 
 
 class Object():
-    def __init__(self, x_pos:float, y_pos:float, angle:float=np.pi/2, color1:int=50 , color2:int=120, size:int=10):
+    def __init__(self, x_pos:float, y_pos:float, angle:float=np.pi/2, color1:int=200 , color2:int=50, size:int=10):
         if color1 == 0 or color2 == 0:
             raise Exception("color value cannot be 0 ")
         self.size = size
@@ -28,7 +28,7 @@ class Object():
     def add_object_to_img(self, img_org: np.ndarray) -> None:
         img = img_org.copy()
         rotated_obj = self.rotate_object()
-        different_color_counter = self.object_matrix.size//6
+        different_color_counter = self.object_matrix.size//4
         for i in range(self.object_matrix.shape[1]):
             x, y = round(self.x_pos+rotated_obj[0, i]), round(self.y_pos+rotated_obj[1, i])
             if 0 <= x < img.shape[1] and 0 < y < img.shape[0]:

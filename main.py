@@ -7,10 +7,11 @@ from simulation import Simulation
 from helpers import show_lidar_data
 
 
-object = Object(1, 1, size=15)
+object = Object(100, 100, size=8)
 
-sim = Simulation('map.png', 100, 0, object)
+sim = Simulation('maps/map.png', num_measurements=200, std=0, object=object)
 window_name = "Lidar Simulation"
+
 
 while not is_pressed('q'):
     cv2.imshow(window_name, sim.get_img())
@@ -23,7 +24,7 @@ while not is_pressed('q'):
         sim.move(-5, 0, 0)
     if is_pressed('d'):
         sim.move(5, 0, 0)
-        
+
     #rotate left
     if is_pressed('r'):
         sim.move(0, 0, 0.1)
@@ -37,9 +38,6 @@ while not is_pressed('q'):
 
 
     cv2.waitKey(10)
-
-
-
 
 
 

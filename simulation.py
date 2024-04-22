@@ -3,13 +3,13 @@ import cv2
 from object import Object
 
 class Simulation():
-    def __init__(self, img_path:str, num_measurement:int, std:float, object: Object):
+    def __init__(self, img_path:str, num_measurements:int, std:float, object: object):
         '''
         :param str num_measuremetn: number of measurement per one rotation
-        :param float std: standard deviation of noise in data  NOT IMPLEMENTED !!!
+        :param float std: standard deviation of noise in data
         '''
         self.object = object
-        self.num_measurement = num_measurement
+        self.num_measurements = num_measurements
         self.std = std
         self.object = object
 
@@ -23,10 +23,10 @@ class Simulation():
 
 
     def get_lidar_data(self):
-        lst = np.zeros((self.num_measurement, 2))
-        lst[:, 0] = np.linspace(0, np.pi*2, self.num_measurement, endpoint=False)
+        lst = np.zeros((self.num_measurements, 2))
+        lst[:, 0] = np.linspace(0, np.pi*2, self.num_measurements, endpoint=False)
         position = np.array([self.object.x_pos, self.object.y_pos])
-        for i in range(self.num_measurement):
+        for i in range(self.num_measurements):
             angle = self.object.angle + lst[i, 0]
             v = np.array([np.cos(angle), np.sin(angle)])
             v_sum = v + position
@@ -41,6 +41,8 @@ class Simulation():
             v = v*num_iter
             lst[i, 1] = np.sqrt(v[0]**2 + v[1]**2) 
 
+        noise = self.std * np.random.randn(self.num_measurements)
+        lst[:, 1] += noise
         return lst
 
 
