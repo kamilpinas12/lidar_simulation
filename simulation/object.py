@@ -25,7 +25,7 @@ class Object():
         return rotation_matrix.dot(self.object_matrix)
          
 
-    def add_object_to_img(self, img_org: np.ndarray) -> None:
+    def add_object_to_img(self, img_org: np.ndarray) -> np.ndarray:
         img = img_org.copy()
         rotated_obj = self.rotate_object()
         different_color_counter = self.object_matrix.size//4

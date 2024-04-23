@@ -6,7 +6,7 @@ from simulation import Object, Simulation, show_lidar_data
 
 
 object = Object(100, 100, size=8)
-sim = Simulation('maps/map.png', num_measurements=100, std=0, object=object)
+sim = Simulation('maps/map.png', num_measurements=1000, std=0, object=object)
 window_name = "Lidar Simulation"
 
 

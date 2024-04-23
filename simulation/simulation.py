@@ -22,7 +22,7 @@ class Simulation():
         self.object.angle += delta_angle
 
 
-    def get_lidar_data(self):
+    def get_lidar_data(self) -> np.ndarray:
         lst = np.zeros((self.num_measurements, 2))
         lst[:, 0] = np.linspace(0, np.pi*2, self.num_measurements, endpoint=False)
         position = np.array([self.object.x_pos, self.object.y_pos])
@@ -45,7 +45,7 @@ class Simulation():
         return lst
 
 
-    def get_img(self):
+    def get_img(self) -> np.ndarray:
         return self.object.add_object_to_img(self.img)
 
 
