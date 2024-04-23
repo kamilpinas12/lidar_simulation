@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from object import Object
+from simulation.object import Object
 
 class Simulation():
     def __init__(self, img_path:str, num_measurements:int, std:float, object: object):
@@ -37,7 +37,6 @@ class Simulation():
                     break
                 v_sum += v
                 num_iter += 1
-
             v = v*num_iter
             lst[i, 1] = np.sqrt(v[0]**2 + v[1]**2) 
 

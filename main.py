@@ -2,14 +2,11 @@ import numpy as np
 import cv2
 from keyboard import is_pressed
 
-from object import Object
-from simulation import Simulation
-from helpers import show_lidar_data
+from simulation import Object, Simulation, show_lidar_data
 
 
 object = Object(100, 100, size=8)
-
-sim = Simulation('maps/map.png', num_measurements=200, std=0, object=object)
+sim = Simulation('maps/map.png', num_measurements=100, std=0, object=object)
 window_name = "Lidar Simulation"
 
 
