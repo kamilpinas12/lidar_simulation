@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from simulation.object import Object
+
 
 class Simulation():
     def __init__(self, img_path:str, num_measurements:int, std:float, object: object):
@@ -16,10 +16,19 @@ class Simulation():
         self.img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 
 
-    def move(self, delta_x: float, delta_y: float, delta_angle:float):
+    def move_xy(self, delta_x: float, delta_y: float, delta_angle:float):
         self.object.x_pos += delta_x
         self.object.y_pos += delta_y
         self.object.angle += delta_angle
+
+
+    def move(self, x:float, y:float, angle:float):
+        self.object.angle += angle
+        self.object.x_pos += np.sin(self.object.angle) * x
+        self.object.y_pos -= np.cos(self.object.angle) * x
+        self.object.y_pos += np.sin(self.object.angle) * y
+        self.object.x_pos += np.cos(self.object.angle) * y
+
 
 
     def get_lidar_data(self) -> np.ndarray:
