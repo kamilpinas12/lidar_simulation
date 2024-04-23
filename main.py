@@ -5,7 +5,7 @@ from keyboard import is_pressed
 from simulation import Object, Simulation, show_lidar_data
 
 
-object = Object(100, 100, move_noise_std=0.1, rotation_noise_std=0.04, offset = 0.01, size=8)
+object = Object(100, 100, move_noise_std=0.1, rotation_noise_std=0.04, offset=0.01, size=8)
 sim = Simulation('maps/map.png', num_measurements=500, lidar_std=0,object=object)
 window_name = "Lidar Simulation"
 

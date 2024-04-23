@@ -29,6 +29,14 @@ class Object():
                 iter += 1
 
 
+    def get_position(self):
+        return self.x, self.y, self.angle
+
+
+    def get_real_position(self):
+        return self.real_x_pos, self.real_y_pos, self.real_angle
+
+
     def move_raw(self, delta_x: float, delta_y: float, delta_angle:float):
         self.real_x_pos += delta_x
         self.real_y_pos += delta_y
