@@ -23,20 +23,21 @@ class Window:
         cv2.waitKey(10)
     
     def on_press(self, key):
-        
-        if key.char == 'w':
-            self.object.move(5)
-        if key.char == 's':
-            self.object.move(-5)
-        if key.char == 'a':
-            self.object.rotate(0.1)
-        if key.char == 'd':
-            self.object.rotate(-0.1)
-            
-        if key.char == 'g':
-            lst = self.sim.get_lidar_data()
-            show_lidar_data(lst)
-            
-        if key.char == 'q':
-            self.working = False   
-    
+        try:
+            if key.char == 'w':
+                self.object.move(5)
+            if key.char == 's':
+                self.object.move(-5)
+            if key.char == 'a':
+                self.object.rotate(0.1)
+            if key.char == 'd':
+                self.object.rotate(-0.1)
+                
+            if key.char == 'g':
+                lst = self.sim.get_lidar_data()
+                show_lidar_data(lst)
+                
+            if key.char == 'q':
+                self.working = False   
+        except:
+            pass
