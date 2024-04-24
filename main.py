@@ -1,4 +1,3 @@
-
 from window import Window
 
         

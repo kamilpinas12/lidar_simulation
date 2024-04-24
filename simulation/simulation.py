@@ -3,40 +3,24 @@ import cv2
 
 
 class Simulation():
-    def __init__(self, img_path:str, num_measurements:int, std:float, object: object):
+    def __init__(self, img_path:str, num_measurements:int, lidar_std:float, object: object):
         '''
         :param str num_measuremetn: number of measurement per one rotation
-        :param float std: standard deviation of noise in data
+        :param float lidar_std: standard deviation of noise in data
         '''
-        self.object = object
         self.num_measurements = num_measurements
-        self.std = std
+        self.lidar_std = lidar_std
         self.object = object
 
         self.img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 
 
-    def move_xy(self, delta_x: float, delta_y: float, delta_angle:float):
-        self.object.x_pos += delta_x
-        self.object.y_pos += delta_y
-        self.object.angle += delta_angle
-
-
-    def move(self, x:float, y:float, angle:float):
-        self.object.angle += angle
-        self.object.x_pos += np.sin(self.object.angle) * x
-        self.object.y_pos -= np.cos(self.object.angle) * x
-        self.object.y_pos += np.sin(self.object.angle) * y
-        self.object.x_pos += np.cos(self.object.angle) * y
-
-
-
     def get_lidar_data(self) -> np.ndarray:
         lst = np.zeros((self.num_measurements, 2))
         lst[:, 0] = np.linspace(0, np.pi*2, self.num_measurements, endpoint=False)
-        position = np.array([self.object.x_pos, self.object.y_pos])
+        position = np.array([self.object.real_x_pos, self.object.real_y_pos])
         for i in range(self.num_measurements):
-            angle = self.object.angle + lst[i, 0]
+            angle = self.object.real_angle + lst[i, 0]
             v = np.array([np.cos(angle), np.sin(angle)])
             v_sum = v + position
             num_iter = 1
@@ -49,7 +33,7 @@ class Simulation():
             v = v*num_iter
             lst[i, 1] = np.sqrt(v[0]**2 + v[1]**2) 
 
-        noise = self.std * np.random.randn(self.num_measurements)
+        noise = self.lidar_std * np.random.randn(self.num_measurements)
         lst[:, 1] += noise
         return lst
 
