@@ -2,3 +2,4 @@ test.ipynb
 __pycache__
 data/
 data/lidar_data.png
+config.json
