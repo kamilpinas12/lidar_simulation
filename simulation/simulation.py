@@ -11,6 +11,7 @@ class Simulation():
         self.num_measurements = num_measurements
         self.lidar_std = lidar_std
         self.object = object
+        self.map = {}
 
         self.img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 
@@ -43,5 +44,17 @@ class Simulation():
 
 
 
+    def add_lidar_data_to_map(self, lidar_data: np.ndarray, x_pos:float, y_pos:float, angle:float):
+        #ultra nieoptymalny algorytm :)
+        x = np.round(np.cos(lidar_data[:, 0] + angle)*lidar_data[:, 1] + x_pos)
+        y = np.round(np.sin(lidar_data[:, 0] + angle)*lidar_data[:, 1] + y_pos)
+        
+        for i in range(x.shape[0]):
+            if x[i] not in self.map:
+                self.map[x[i]] = {}
+            self.map[x[i]][y[i]] = True
 
+    
 
+    def clear_map(slef):
+        slef.map = {}

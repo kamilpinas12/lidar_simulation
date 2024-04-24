@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import json
 
-from simulation import Object, Simulation, show_lidar_data
+from simulation import Object, Simulation, show_lidar_data, show_map
 
 
 try:
@@ -61,7 +61,10 @@ class Window:
         if is_pressed('g'):
             lst = self.sim.get_lidar_data()
             show_lidar_data(lst)
+            self.sim.add_lidar_data_to_map(lst, self.object.x, self.object.y, self.object.angle)
 
+        if is_pressed('h'):
+            show_map(self.sim.map)
 
 
     
