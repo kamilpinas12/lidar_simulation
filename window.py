@@ -8,7 +8,7 @@ class Window:
     def __init__(self):
         self.working = True
         self.object = Object(100, 100, size=8)
-        self.sim = Simulation('maps/map.png', num_measurements=500, std=0, object=self.object)
+        self.sim = Simulation('maps/map.png', num_measurements=500, lidar_std=0, object=self.object)
         self.window_name = "Lidar Simulation"  
         self.listener = keyboard.Listener(on_press=self.on_press)      
         
@@ -27,11 +27,11 @@ class Window:
         if key.char == 'w':
             self.object.move(5)
         if key.char == 's':
-            self.sim.move(0, -5, 0)
+            self.object.move(-5)
         if key.char == 'a':
-            object.rotate(0.1)
+            self.object.rotate(0.1)
         if key.char == 'd':
-            object.rotate(-0.1)
+            self.object.rotate(-0.1)
             
         if key.char == 'g':
             lst = self.sim.get_lidar_data()
