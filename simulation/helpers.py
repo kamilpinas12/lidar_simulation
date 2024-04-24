@@ -1,8 +1,13 @@
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt 
+import os
+
 
 matplotlib.use('agg')
+
+if not os.path.exists("data"):
+    os.makedirs("data")
 
 
 def show_lidar_data(data: np.ndarray):
