@@ -46,8 +46,8 @@ class Object():
     def rotate(self, angle: float, random_noise: bool=True):
         if self.rotation_noise_std != 0 and random_noise:
             self.real_angle += angle + np.random.randn(1)[0] * self.rotation_noise_std + self.offset
-            self.real_y_pos += np.random.rand(1)[0]*self.move_noise_std * 0.1
-            self.real_x_pos += np.random.rand(1)[0]*self.move_noise_std * 0.1
+            self.real_y_pos += np.random.rand(1)[0]*self.move_noise_std * 0.01
+            self.real_x_pos += np.random.rand(1)[0]*self.move_noise_std * 0.01
         else:
             self.real_angle += angle 
         
@@ -59,8 +59,8 @@ class Object():
             noise = self.rotation_noise_std * np.random.randn(1)[0] + self.offset
             self.real_y_pos += np.sin(self.real_angle + noise) * y + np.random.rand(1)[0]*self.move_noise_std
             self.real_x_pos += np.cos(self.real_angle + noise) * y + np.random.rand(1)[0]*self.move_noise_std
-            self.x += np.sin(self.real_angle) * y
-            self.y += np.cos(self.real_angle) * y
+            self.x += np.cos(self.real_angle) * y
+            self.y += np.sin(self.real_angle) * y
         else:
             dx = np.cos(self.real_angle) * y
             dy = np.sin(self.real_angle) * y
@@ -68,6 +68,7 @@ class Object():
             self.real_x_pos += dx
             self.x += dx
             self.y += dy
+        print(self.x, self.y, self.angle, self.real_x_pos, self.real_y_pos, self.real_angle)
 
 
     def rotate_object(self) -> np.ndarray:

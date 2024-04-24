@@ -21,8 +21,8 @@ else:
 class Window:
     def __init__(self):
         self.working = True
-        self.object = Object(100, 100, size=8)
-        self.sim = Simulation('maps/map.png', num_measurements=500, lidar_std=0, object=self.object)
+        self.object = Object(100, 100, move_noise_std=0.01, rotation_noise_std=0.001, offset=0.001, size=8)
+        self.sim = Simulation('maps/map.png', num_measurements=500, lidar_std=3, object=self.object)
         self.window_name = "Lidar Simulation"  
         if not keyboard_lib:
             self.listener = keyboard.Listener(on_press=self.on_press)      
