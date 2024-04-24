@@ -82,7 +82,11 @@ class Window:
             if key.char == 'g':
                 lst = self.sim.get_lidar_data()
                 show_lidar_data(lst)
+                self.sim.add_lidar_data_to_map(lst, self.object.x, self.object.y, self.object.angle)
                 
+            if key.char == 'h':
+                show_map(self.sim.map)
+            
             if key.char == 'q':
                 self.working = False   
         except:
