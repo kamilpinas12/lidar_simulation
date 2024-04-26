@@ -68,7 +68,6 @@ class Object():
             self.real_x_pos += dx
             self.x += dx
             self.y += dy
-        print(self.x, self.y, self.angle, self.real_x_pos, self.real_y_pos, self.real_angle)
 
 
     def rotate_object(self) -> np.ndarray:

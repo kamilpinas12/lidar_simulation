@@ -45,7 +45,6 @@ class Simulation():
 
 
     def add_lidar_data_to_map(self, lidar_data: np.ndarray, x_pos:float, y_pos:float, angle:float):
-        #ultra nieoptymalny algorytm :)
         x = np.round(np.cos(lidar_data[:, 0] + angle)*lidar_data[:, 1] + x_pos)
         y = np.round(np.sin(lidar_data[:, 0] + angle)*lidar_data[:, 1] + y_pos)
         
@@ -54,7 +53,7 @@ class Simulation():
                 self.map[x[i]] = {}
             self.map[x[i]][y[i]] = True
 
-    
 
-    def clear_map(slef):
-        slef.map = {}
+
+    def clear_map(self):
+        self.map = {}
