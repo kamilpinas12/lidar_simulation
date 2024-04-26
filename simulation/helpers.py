@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt 
 import os
+import time
 from typing import Dict
 
 
@@ -22,7 +23,7 @@ def show_lidar_data(data: np.ndarray):
     plt.title("Lidar data visualization")
     plt.grid()
     plt.axis('scaled')
-    plt.savefig("data/lidar_data.png")
+    plt.savefig(f"data/lidar_data {time.ctime(time.time())}.png")
 
 
 def show_map(data: Dict[float, Dict]):
