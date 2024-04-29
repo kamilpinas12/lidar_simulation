@@ -60,6 +60,7 @@ class Simulation():
                 self.map.append(tab)
 
 
+
     def clear_map(self):
         self.map = []
 
