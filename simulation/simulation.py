@@ -10,8 +10,6 @@ class Simulation():
         self.num_measurements = num_measurements
         self.distance_std = distance_std
         self.angle_std = angle_std
-
-        #not implemented
         self.lidar_range = lidar_range
 
         self.object = object
