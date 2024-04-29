@@ -2,4 +2,3 @@ cv2
 numpy
 pynput
 matplotlib
-json

@@ -3,6 +3,16 @@ import numpy as np
 
 class Object():
     def __init__(self, x_pos:float, y_pos:float, move_noise_std:float = 0, rotation_noise_std:float=0, offset:float=0, angle:float=np.pi/2, color1:int=200 , color2:int=50, size:int=10):
+        '''
+        :param float x_pos: initial x position
+        :param float y_pos: inintial y position 
+        :param float move_noise_std: standard deviation driving forward 
+        :param float rotation_noise_std: standar deviation while turning and going forwad 
+        :param float offset: constant noise for rotation and driving straingt
+        :param float angle: initial angle 
+        :param int color1: upper color of the object range: 1:255
+        :param int color2: lower color of the object range: 1:255 
+        '''
         if color1 == 0 or color2 == 0:
             raise Exception("color value cannot be 0 ")
         self.size = size
@@ -16,11 +26,15 @@ class Object():
         self.real_y_pos = y_pos
         self.real_angle = angle
 
-        # theoretical position base on input of move and roate function if noise = 0, x_pos = real_x_pos ...
         self.x = x_pos
         self.y = y_pos
         self.angle = angle
 
+
+        '''
+        object consists of vector that starts at the center of the object 
+        and points at every pixel of the object  
+        '''
         self.object_matrix = np.zeros((2, (2*(size+1))**2))
         iter = 0
         for i in range(-size, size+1):
@@ -29,15 +43,24 @@ class Object():
                 iter += 1
 
 
+
+    '''
+    function returns position base on input of move function 
+    if noise is 0 get_position and get real positon are equal
+    '''
     def get_position(self):
         return self.x, self.y, self.angle
-
 
     def get_real_position(self):
         return self.real_x_pos, self.real_y_pos, self.real_angle
 
 
+
     def move_raw(self, delta_x: float, delta_y: float, delta_angle:float):
+        '''
+        move object with by vector [delta_x, delta_y] and rotate by delta_angle
+        doesn't include noise !!!
+        '''
         self.real_x_pos += delta_x
         self.real_y_pos += delta_y
         self.real_angle += delta_angle
@@ -71,6 +94,9 @@ class Object():
 
 
     def rotate_object(self) -> np.ndarray:
+        '''
+ 
+        '''
         rotation_matrix = np.array([[np.cos(self.real_angle), -np.sin(self.real_angle)], [np.sin(self.real_angle), np.cos(self.real_angle)]])
         return rotation_matrix.dot(self.object_matrix)
          

@@ -3,7 +3,7 @@ import matplotlib
 import matplotlib.pyplot as plt 
 import os
 import time
-from typing import Dict
+from typing import List
 
 
 matplotlib.use('agg')
@@ -12,7 +12,7 @@ if not os.path.exists("data"):
     os.makedirs("data")
 
 
-def show_lidar_data(data: np.ndarray):
+def show_lidar_data(data: np.ndarray, overwrite_file: bool=False):
     x = np.cos(data[:, 0] + np.pi/2)*data[:, 1]
     y = np.sin(data[:, 0] + np.pi/2)*data[:, 1]
     
@@ -23,16 +23,18 @@ def show_lidar_data(data: np.ndarray):
     plt.title("Lidar data visualization")
     plt.grid()
     plt.axis('scaled')
-    plt.savefig(f"data/lidar_data {time.ctime(time.time())}.png")
+    if overwrite_file:
+        plt.savefig('data/lidar_data.png')
+    else:
+        plt.savefig(f"data/lidar_data {time.ctime(time.time())}.png")
 
 
-def show_map(data: Dict[float, Dict]):
+def show_map(data: List[List]):
     x = []
     y = []    
-    for key_x, val in data.items():
-        for key_y in val.keys():
-            x.append(key_x)
-            y.append(key_y)
+    for i in data:
+        x.append(i[0])
+        y.append(i[1])
 
     plt.figure()
     plt.scatter(x, y)
@@ -40,6 +42,7 @@ def show_map(data: Dict[float, Dict]):
     plt.axis('scaled')
     plt.savefig('data/map.png')
     plt.figure()
+
 
 
 
