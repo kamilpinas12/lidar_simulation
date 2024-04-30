@@ -16,17 +16,15 @@ class ICP:
         correspondences = np.ones((self.data_size, 2))
         for i in range(self.data_size):
             j = min(np.arange(self.data_size), key=lambda x: np.linalg.norm(self.data[i]-self.map[x]))
-            correspondences[i][0], correspondences[i][1] = i, j
+            correspondences[i][0], correspondences[i][1] = j, i
         self.c = correspondences.astype(np.int16)
 
     # Get rotation
     def rotation(self) -> np.ndarray:
         # TODO: optimize covariance calculation (may be done by one cov function)
-        k11 = np.cov(np.array([self.map[self.c[:, 0], 0], self.data[self.c[:, 1], 0]]))[0, 1]
-        k12 = np.cov(np.array([self.map[self.c[:, 0], 1], self.data[self.c[:, 1], 0]]))[0, 1]
-        k21 = np.cov(np.array([self.map[self.c[:, 0], 0], self.data[self.c[:, 1], 1]]))[0, 1]
-        k22 = np.cov(np.array([self.map[self.c[:, 0], 1], self.data[self.c[:, 1], 1]]))[0, 1]
-        K = np.array([[k11, k12], [k21, k22]])
+        k = np.cov(np.array([self.map[self.c[:, 0], 0], self.map[self.c[:, 0], 1], 
+                             self.data[self.c[:, 1], 0], self.data[self.c[:, 1], 1]]))
+        K = np.array([[k[0, 2], k[0, 3]], [k[1, 2], k[1,3]]])
         U, _, V_t = np.linalg.svd(K)
         return U@V_t
 
@@ -36,16 +34,17 @@ class ICP:
                 self.map[self.c[:, 0], 1].mean() - self.data[self.c[:, 1], 1].mean())
 
     # Iterate ICP
-    def iterate(self) -> None:
-        self.correspondence()
-        t = self.translation()
-        r = self.rotation()
-        
-        for i in range(self.data_size):
-            self.data[i] = r @ self.data[i] + t
+    def iterate(self, iteration:int) -> None:
+        for _ in range(iteration):
+            self.correspondence()
+            t = self.translation()
+            r = self.rotation()
             
-        self.rotation_matrix = r @ self.rotation_matrix
-        self.translation_vector = self.translation_vector + t
+            for i in range(self.data_size):
+                self.data[i] = r @ self.data[i] + t
+                
+            self.rotation_matrix = r @ self.rotation_matrix
+            self.translation_vector = self.translation_vector + t
     
     # Get final transformation
     def get_transformation(self) -> Tuple[np.ndarray, np.ndarray]:
