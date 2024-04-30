@@ -27,7 +27,7 @@ if __name__ == '__main__':
             object.move(-4)
 
         if keyboard.is_key_pressed('a'):
-            object.rotate(0.08, )
+            object.rotate(0.08)
 
         if keyboard.is_key_pressed('d'):
             object.rotate(-0.08)
