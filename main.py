@@ -12,23 +12,22 @@ pynput and set keyboard_libary to false, punput libary also works on windows but
         
 if __name__ == '__main__':
 
-    object = Object(100, 100, move_noise_std=0, rotation_noise_std=0, offset=0, size=8)
-    sim = Simulation("maps/map.png", num_measurements=360, distance_std=0, angle_std=0, lidar_range=600, object=object)
+    object = Object(100, 100, move_noise_std=0.1, rotation_noise_std=0.02, offset=0.001, size=8)
+    sim = Simulation("maps/map.png", num_measurements=360, distance_std=0.1, angle_std=0.02, lidar_range=600, object=object)
 
     keyboard = Keyboard()
 
-    while True:
-        if keyboard.is_key_pressed('q'):
-            break
-
+    while not keyboard.is_key_pressed('q'):
+         
         if keyboard.is_key_pressed('w'):
             object.move(4)
+
 
         if keyboard.is_key_pressed("s"):
             object.move(-4)
 
         if keyboard.is_key_pressed('a'):
-            object.rotate(0.08)
+            object.rotate(0.08, )
 
         if keyboard.is_key_pressed('d'):
             object.rotate(-0.08)

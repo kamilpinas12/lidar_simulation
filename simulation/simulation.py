@@ -21,12 +21,12 @@ class Simulation():
 
     def get_lidar_data(self) -> np.ndarray:
         lst = np.zeros((self.num_measurements, 2))
-        angle_noise = np.random.randn(self.num_measurements) * self.angle_std
-        lst[:, 0] = np.linspace(0, np.pi*2, self.num_measurements, endpoint=False) + angle_noise
+        lst[:, 0] = np.linspace(0, np.pi*2, self.num_measurements, endpoint=False)
         position = np.array([self.object.real_x_pos, self.object.real_y_pos])
         for i in range(self.num_measurements):
             angle = self.object.real_angle + lst[i, 0]
-            v = np.array([np.cos(angle), np.sin(angle)])
+            noise = np.random.randn(2) * self.angle_std
+            v = np.array([np.cos(angle + noise[0]), np.sin(angle + noise[1])])
             v_sum = v + position
             num_iter = 1
             while 0 < round(v_sum[0]) < self.img.shape[1] and 0 < round(v_sum[1]) < self.img.shape[0]:
