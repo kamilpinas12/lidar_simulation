@@ -12,7 +12,7 @@ pynput and set keyboard_libary to false, punput libary also works on windows but
         
 if __name__ == '__main__':
 
-    object = Object(100, 100, move_noise_std=0.1, rotation_noise_std=0.02, offset=0.001, size=8)
+    object = Object(100, 100, move_noise_std=0.03, rotation_noise_std=0.004, offset=0, size=8)
     sim = Simulation("maps/map.png", num_measurements=360, distance_std=0.1, angle_std=0.02, lidar_range=600, object=object)
 
     keyboard = Keyboard()
@@ -41,7 +41,7 @@ if __name__ == '__main__':
             simulation.show_map(sim.map)
         
 
-        sim.update()
+        sim.update(show_theoretical_position=True)
 
     sim.end_sim()
 

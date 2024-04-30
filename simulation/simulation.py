@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+from simulation import Object
 
 
 class Simulation():
@@ -46,8 +47,14 @@ class Simulation():
         return lst
 
 
-    def get_img(self) -> np.ndarray:
-        return self.object.add_object_to_img(self.img)
+    def get_img(self, show_theoretical_position: bool=False) -> np.ndarray:
+        if show_theoretical_position:
+            pos = self.object.get_position()
+            obj = Object(x_pos=pos[0], y_pos=pos[1], angle=pos[2], size=self.object.size, color1=210, color2=160)
+            img = obj.add_object_to_img(self.img)
+            return self.object.add_object_to_img(img)
+        else:
+            return self.object.add_object_to_img(self.img)
 
 
     def update_map(self, lidar_data: np.ndarray, x_pos:float, y_pos:float, angle:float):
@@ -65,8 +72,8 @@ class Simulation():
         self.map = []
 
 
-    def update(self):
-        cv2.imshow(self.window_name, self.get_img())
+    def update(self, show_theoretical_position: bool=False):
+        cv2.imshow(self.window_name, self.get_img(show_theoretical_position))
         cv2.waitKey(10)
 
 

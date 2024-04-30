@@ -2,7 +2,7 @@ import numpy as np
 
 
 class Object():
-    def __init__(self, x_pos:float, y_pos:float, move_noise_std:float = 0, rotation_noise_std:float=0, offset:float=0, angle:float=np.pi/2, color1:int=200 , color2:int=50, size:int=10):
+    def __init__(self, x_pos:float, y_pos:float, move_noise_std:float = 0, rotation_noise_std:float=0, offset:float=0, angle:float=np.pi/2, color1:int=150 , color2:int=10, size:int=10):
         '''
         :param float x_pos: initial x position
         :param float y_pos: inintial y position 
@@ -43,7 +43,6 @@ class Object():
                 iter += 1
 
 
-
     '''
     function returns position base on input of move function 
     if noise is 0 get_position and get_real_positon are the same
@@ -78,7 +77,7 @@ class Object():
 
     def move(self, delta_y: float, random_noise: bool=True):
         if self.rotation_noise_std != 0 and random_noise:
-            noise = self.rotation_noise_std * np.random.randn(1)[0]*delta_y + self.offset*delta_y
+            noise = (self.rotation_noise_std * np.random.randn(1)[0]*delta_y + self.offset*delta_y) * 0.05
             self.real_y_pos += np.sin(self.real_angle + noise) * delta_y + np.random.rand(1)[0]*self.move_noise_std*delta_y
             self.real_x_pos += np.cos(self.real_angle + noise) * delta_y + np.random.rand(1)[0]*self.move_noise_std*delta_y
             self.x += np.cos(self.angle) * delta_y
