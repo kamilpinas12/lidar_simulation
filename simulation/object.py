@@ -67,8 +67,8 @@ class Object():
     def rotate(self, delta_angle: float, random_noise: bool=True):
         if self.rotation_noise_std != 0 and random_noise:
             self.real_angle += delta_angle + np.random.randn(1)[0] * self.rotation_noise_std*delta_angle + self.offset*delta_angle
-            self.real_y_pos += np.random.rand(1)[0]*self.move_noise_std * 0.01 * delta_angle
-            self.real_x_pos += np.random.rand(1)[0]*self.move_noise_std * 0.01 * delta_angle
+            self.real_y_pos += np.random.randn(1)[0]*self.move_noise_std * 0.1 * delta_angle
+            self.real_x_pos += np.random.randn(1)[0]*self.move_noise_std * 0.1 * delta_angle
         else:
             self.real_angle += delta_angle 
         
@@ -76,10 +76,10 @@ class Object():
 
 
     def move(self, delta_y: float, random_noise: bool=True):
-        if self.rotation_noise_std != 0 and random_noise:
+        if self.rotation_noise_std != 0 and self.move_noise_std != 0 and random_noise:
             noise = (self.rotation_noise_std * np.random.randn(1)[0]*delta_y + self.offset*delta_y) * 0.05
-            self.real_y_pos += np.sin(self.real_angle + noise) * delta_y + np.random.rand(1)[0]*self.move_noise_std*delta_y
-            self.real_x_pos += np.cos(self.real_angle + noise) * delta_y + np.random.rand(1)[0]*self.move_noise_std*delta_y
+            self.real_y_pos += np.sin(self.real_angle + noise) * delta_y + np.random.randn(1)[0]*self.move_noise_std*delta_y
+            self.real_x_pos += np.cos(self.real_angle + noise) * delta_y + np.random.randn(1)[0]*self.move_noise_std*delta_y
             self.x += np.cos(self.angle) * delta_y
             self.y += np.sin(self.angle) * delta_y
         else:
