@@ -45,6 +45,10 @@ def show_map(data: List[List]):
 
 
 
-
-
+def polar2kart(lidar_data: np.ndarray):
+    x = np.round(np.cos(lidar_data[:, 0])*lidar_data[:, 1])
+    y = np.round(np.sin(lidar_data[:, 0])*lidar_data[:, 1])
+    lst = np.zeros((x.size, 2))
+    lst[:, 0], lst[:, 1] = x, y
+    return lst
 
