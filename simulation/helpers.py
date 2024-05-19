@@ -52,3 +52,16 @@ def polar2kart(lidar_data: np.ndarray):
     lst[:, 0], lst[:, 1] = x, y
     return lst
 
+
+def kart2polar(data: np.ndarray):
+    data_polar = np.zeros(data.shape)
+    for i in range(data.shape[0]):
+        d = np.linalg.norm(data[i, :])
+        data_polar[i, 1] = d
+
+        angle = np.arctan2(data[i, 0], data[i, 1])
+        if angle < 0:
+            angle = np.pi -angle
+        data_polar[i, 0] = angle
+
+    return data_polar

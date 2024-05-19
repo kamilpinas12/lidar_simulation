@@ -42,7 +42,7 @@ if __name__ == '__main__':
         
 
         sim.update(show_theoretical_position=True)
-
+        print(object.get_real_position())
     sim.end_sim()
 
 
