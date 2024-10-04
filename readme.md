@@ -9,4 +9,4 @@ features:
  The main goal for this project is to test various SLAM algorithms.
 
 
- ![alt text](https://github.com/kamilpinas12/lidar_simulation/blob/master/occupancy_map.png?raw=true)
+![alt text](https://github.com/kamilpinas12/lidar_simulation/blob/master/img/occupancy_map.png?raw=true)
