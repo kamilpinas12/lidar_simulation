@@ -6,4 +6,7 @@ features:
 - move and rotate lidar around the map with keyboard
 - lidar data vizualization
   
+ The main goal for this project is to test various SLAM algorithms.
+
+
  
