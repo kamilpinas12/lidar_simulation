@@ -85,7 +85,7 @@ class Simulation():
     
 
 class OccupancyGridMap:
-    def __init__(self, size: set, resolution: float, border: int=3):
+    def __init__(self, size: set, resolution: float | int, border: int=3):
         self.resolution = resolution
         self.map = np.full((size[0], size[1]), 0.5, dtype=np.float32)
         self.log_odds = np.log(self.map/(1-self.map))

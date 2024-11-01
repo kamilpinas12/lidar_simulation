@@ -29,7 +29,7 @@ def show_lidar_data(data: np.ndarray, overwrite_file: bool=False):
         plt.savefig(f"data/lidar_data {time.ctime(time.time())}.png")
 
 
-def show_map(data: List[List], occupancy_map):
+def show_map(data: List[List], occupancy_map: np.ndarray):
     x = []
     y = []    
     for i in data:
