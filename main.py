@@ -38,7 +38,7 @@ if __name__ == '__main__':
             sim.update_map(lst, object.x, object.y, object.angle)
 
         if keyboard.is_key_pressed('h'):
-            simulation.show_map(sim.map)
+            simulation.show_map(sim.map, sim.occupancy_grid_map.map)
         
 
         sim.update(show_theoretical_position=True)

@@ -15,6 +15,7 @@ class Simulation():
 
         self.object = object
         self.map = []
+        self.occupancy_grid_map = OccupancyGridMap((440, 255), 2)
         self.img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 
         self.window_name = "Lidar Simulation"
@@ -65,7 +66,9 @@ class Simulation():
             tab = [x[i], y[i]]
             if tab not in self.map:
                 self.map.append(tab)
-
+                
+        self.occupancy_grid_map.occupancy_grid_mapping(lidar_data, int(x_pos), int(y_pos), angle)
+        self.occupancy_grid_map.update()
 
 
     def clear_map(self):
@@ -79,3 +82,39 @@ class Simulation():
 
     def end_sim(self):
         cv2.destroyAllWindows()
+    
+
+class OccupancyGridMap:
+    def __init__(self, size: set, resolution: float | int, border: int=3):
+        self.resolution = resolution
+        self.map = np.full((size[0], size[1]), 0.5, dtype=np.float32)
+        self.log_odds = np.log(self.map/(1-self.map))
+        self.border = border
+        self.p_occ = 0.9
+        self.p_free = 1 - self.p_occ
+        self.pmi = 0.5  # probability of beeing occupied
+    
+    def occupancy_grid_mapping(self, lidar_data: np.ndarray, x_pos:float, y_pos:float, angle:float):
+        x_pos = x_pos/self.resolution
+        y_pos = y_pos/self.resolution
+        
+        for alpha, distance in lidar_data:
+            length_min = distance / self.resolution - self.border
+            length_max = distance / self.resolution + self.border
+            for x, y in self.bresenhams_stupid_filips_algorithm(x_pos, y_pos, alpha + angle, length_max):
+                if np.linalg.norm([x-x_pos, y-y_pos]) > length_min:
+                    self.log_odds[x, y] = self.log_odds[x, y] + np.log(self.p_free/self.p_occ) - self.pmi
+                else:
+                    self.log_odds[x, y] = self.log_odds[x, y] + np.log(self.p_occ/self.p_free) - self.pmi
+        
+    def bresenhams_stupid_filips_algorithm(self, x_pos:float, y_pos:float, angle:float, length:int):
+        for i in range(np.round(length).astype(int)):
+            yield np.round(x_pos + np.cos(angle)*i).astype('int'), np.round(y_pos + np.sin(angle)*i).astype('int')
+    
+    def bresenhams_line_algorithm(self, start: np.ndarray, end: np.ndarray):
+        pass
+    
+    def update(self):
+        self.map = 1 - 1/(1+np.exp(self.log_odds))
+        self.pmi = np.sum(self.map)/(self.map.shape[0]*self.map.shape[1])
+    

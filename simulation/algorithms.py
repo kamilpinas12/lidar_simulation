@@ -1,27 +1,32 @@
 import numpy as np
 from typing import Tuple
+import time
+
 
 
 class ICP:
     def __init__(self, map: np.ndarray, data: np.ndarray) -> None:
         self.map = map
-        self.data = data
+        self.data = data.copy()
         self.data_size = self.data.shape[0]
-        self.c = np.nan
+        self.c = np.nan # map index, lidardata index
         self.rotation_matrix = np.eye(2)
         self.translation_vector = np.zeros(2)
+        self.diff = 0
 
     # Get nearest neighbour for every data node
     def correspondence(self) -> None:
+        self.diff = 0
         correspondences = np.ones((self.data_size, 2))
         for i in range(self.data_size):
             j = min(np.arange(self.data_size), key=lambda x: np.linalg.norm(self.data[i]-self.map[x]))
             correspondences[i][0], correspondences[i][1] = j, i
+            self.diff += np.linalg.norm(self.data[i]-self.map[j])
         self.c = correspondences.astype(np.int16)
 
     # Get rotation
     def rotation(self) -> np.ndarray:
-        # TODO: optimize covariance calculation (may be done by one cov function)
+        # Counting cross covariance
         k = np.cov(np.array([self.map[self.c[:, 0], 0], self.map[self.c[:, 0], 1], 
                              self.data[self.c[:, 1], 0], self.data[self.c[:, 1], 1]]))
         K = np.array([[k[0, 2], k[0, 3]], [k[1, 2], k[1,3]]])
@@ -39,10 +44,8 @@ class ICP:
             self.correspondence()
             t = self.translation()
             r = self.rotation()
-            
             for i in range(self.data_size):
-                self.data[i] = r @ self.data[i] + t
-                
+                self.data[i] = r @ self.data[i] + t     
             self.rotation_matrix = r @ self.rotation_matrix
             self.translation_vector = self.translation_vector + t
     
